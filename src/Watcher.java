@@ -1,30 +1,23 @@
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-//now().getSecond()<=ENDTIME
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-
 import static java.time.LocalTime.now;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Watcher implements Runnable{
-    HashMap data = new HashMap(1);
-    String stock;
+    Option option;
     final int ENDTIME=now().getSecond()+10;
     final int INTERVAL=500;
     Lock getPriceLock;
 
-    public Watcher(String stock){
-        this.stock=stock;
+    public Watcher(String option){
+        this.option=new Option(option, now());
         getPriceLock = new ReentrantLock();
 
     }
 
 
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) {
         Runnable NEE = new Watcher("#BTC-USD");
         Runnable RUN = new Watcher("$RUN");
         Runnable UAL = new Watcher("$UAL");
@@ -48,13 +41,8 @@ public class Watcher implements Runnable{
     public void run() {
         getPriceLock.lock();
         try {
-            while(now().getSecond()!=ENDTIME){
-                if(!data.containsKey(this.stock)){
-                    data.put(this.stock, new Option(this.stock, now()));
-                }else{
-                    data.replace(this.stock, new Option(this.stock, now()));
-                }
-                System.out.println(this.stock+" | "+data.get(this.stock)+" | "+now());
+            while(now().getSecond()<=ENDTIME){
+                System.out.println(this.option.getName() +" | "+this.option+" | "+now());
                 Thread.sleep(INTERVAL);
             }
         } catch (InterruptedException e) {

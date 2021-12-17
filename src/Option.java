@@ -20,16 +20,20 @@ public class Option {
         this.price=getPrice(this.name);
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public BigDecimal getPrice(String name)  {
 
-            Stock stock = null;
-            try {
-                stock = YahooFinance.get(name);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Stock stock = null;
+        try {
+            stock = YahooFinance.get(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            return stock.getQuote().getPrice();
+        return stock.getQuote().getPrice();
     }
 
     public BigDecimal getPercentChange(String stockName)  {
