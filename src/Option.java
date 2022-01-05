@@ -17,7 +17,7 @@ public class Option {
         this.name=ticker.substring(1);
         this.id = ticker.charAt(0);
         this.now=now;
-        this.price=getPrice(this.name);
+        //this.price=getPrice(this.name);
     }
 
     public String getName(){
@@ -33,6 +33,7 @@ public class Option {
             e.printStackTrace();
         }
 
+        assert stock != null;
         return stock.getQuote().getPrice();
     }
 
@@ -77,6 +78,6 @@ public class Option {
 
     @Override
     public String toString(){
-        return type(this.id) + " | " + this.price;
+        return type(this.id) + " | " + getPrice(this.name);
     }
 }
